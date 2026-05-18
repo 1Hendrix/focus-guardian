@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.guardian.sentinel</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/guardian-sentinel.sh</string>
+    </array>
+
+    <!-- User-level bootstrap watchdog. Runs at login and every 3 hours
+         thereafter. Detects a missing/broken LaunchDaemon or sudoers
+         (e.g. after a macOS upgrade) and triggers self-repair. -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StartInterval</key>
+    <integer>10800</integer>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>Nice</key>
+    <integer>10</integer>
+
+    <key>StandardOutPath</key>
+    <string>/var/log/guardian/sentinel-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/var/log/guardian/sentinel-stderr.log</string>
+</dict>
+</plist>

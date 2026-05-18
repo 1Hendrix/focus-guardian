@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Local runtime artifacts (never part of the repo)
+*.log
+.env
+
+# Python (defensive — repo is pure bash, but in case anything is added)
+.venv/
+__pycache__/
+*.pyc

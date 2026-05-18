@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.guardian.focus-trigger</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/guardian-focus-trigger.sh</string>
+    </array>
+
+    <!-- Re-evaluate /etc/guardian/schedule.conf every 15 minutes. All
+         schedule logic lives in that file; this daemon just wakes the
+         scheduler up regularly. No wall-clock times here on purpose:
+         the plist stays decoupled from whatever schedule you configure. -->
+    <key>StartInterval</key>
+    <integer>900</integer>
+
+    <!-- Also fire immediately at boot... -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- ...and on wake/login: /var/run/utmpx changes on these events. -->
+    <key>WatchPaths</key>
+    <array>
+        <string>/var/run/utmpx</string>
+    </array>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>Nice</key>
+    <integer>5</integer>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/var/log/guardian/launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/var/log/guardian/launchd-stderr.log</string>
+</dict>
+</plist>

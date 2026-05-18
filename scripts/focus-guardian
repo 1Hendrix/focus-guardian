@@ -1,0 +1,73 @@
+#!/bin/bash
+# focus-guardian — CLI for the focus-guardian hosts-based focus enforcer.
+#
+# Usage:
+#   focus-guardian status     Show active block, current schedule window, health
+#   focus-guardian run        Run the scheduler now (apply the current window)
+#   focus-guardian repair     Re-check and reload the daemon/sudoers if broken
+#   focus-guardian edit       Edit the schedule (/etc/guardian/schedule.conf)
+#   focus-guardian help       Show this help
+#
+# `status` runs unprivileged. `run` and `repair` modify /etc/hosts and
+# system config, so they re-invoke via sudo automatically. `edit` opens
+# the root-owned schedule with sudo $EDITOR (default: nano).
+
+set -uo pipefail
+
+TRIGGER="/usr/local/bin/guardian-focus-trigger.sh"
+SCHEDULE="/etc/guardian/schedule.conf"
+
+require_trigger() {
+    if [ ! -x "$TRIGGER" ]; then
+        echo "focus-guardian: not installed ($TRIGGER missing)." >&2
+        echo "Run:  sudo bash install.sh" >&2
+        exit 1
+    fi
+}
+
+usage() {
+    cat <<'EOF'
+focus-guardian — hosts-based focus enforcer for macOS
+
+  focus-guardian status     Active block, current schedule window, health
+  focus-guardian run        Run the scheduler now (apply current window)
+  focus-guardian repair     Re-check + reload daemon/sudoers if broken
+  focus-guardian edit       Edit the schedule (/etc/guardian/schedule.conf)
+  focus-guardian help       Show this help
+
+status runs without sudo. run/repair self-elevate (they change /etc/hosts).
+EOF
+}
+
+cmd="${1:-help}"
+case "$cmd" in
+    status|st)
+        require_trigger
+        "$TRIGGER" --status
+        ;;
+    run)
+        require_trigger
+        if [ "$(id -u)" -eq 0 ]; then "$TRIGGER"; else sudo "$TRIGGER"; fi
+        ;;
+    repair)
+        require_trigger
+        if [ "$(id -u)" -eq 0 ]; then "$TRIGGER" --repair; else sudo "$TRIGGER" --repair; fi
+        ;;
+    edit)
+        if [ ! -f "$SCHEDULE" ]; then
+            echo "focus-guardian: $SCHEDULE not found — run:  sudo bash install.sh" >&2
+            exit 1
+        fi
+        editor="${EDITOR:-nano}"
+        sudo "$editor" "$SCHEDULE"
+        echo "Schedule saved. Apply it now with:  focus-guardian run"
+        ;;
+    help|-h|--help)
+        usage
+        ;;
+    *)
+        echo "focus-guardian: unknown command '$cmd'" >&2
+        echo "Try:  focus-guardian help" >&2
+        exit 1
+        ;;
+esac

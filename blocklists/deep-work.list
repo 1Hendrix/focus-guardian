@@ -1,0 +1,134 @@
+# focus-guardian — "deep-work" blocklist (strict)
+#
+# Social media + entertainment + news/aggregators. Used for the
+# strictest focus windows where even news counts as a distraction.
+# Format: one domain per line. Lines starting with # are ignored.
+# Both IPv4 (127.0.0.1) and IPv6 (::1) /etc/hosts entries are written
+# per domain so IPv6 can't bypass the block.
+#
+# This is an EXAMPLE list — tune it to your own attention sinks.
+
+# ── Twitter / X ──────────────────────────────────────────
+twitter.com
+www.twitter.com
+mobile.twitter.com
+x.com
+www.x.com
+api.twitter.com
+abs.twimg.com
+pbs.twimg.com
+t.co
+
+# ── Instagram ────────────────────────────────────────────
+instagram.com
+www.instagram.com
+i.instagram.com
+static.cdninstagram.com
+scontent.cdninstagram.com
+
+# ── TikTok ───────────────────────────────────────────────
+tiktok.com
+www.tiktok.com
+m.tiktok.com
+vm.tiktok.com
+
+# ── Facebook ─────────────────────────────────────────────
+facebook.com
+www.facebook.com
+m.facebook.com
+web.facebook.com
+static.xx.fbcdn.net
+scontent.xx.fbcdn.net
+
+# ── Other social ─────────────────────────────────────────
+threads.net
+www.threads.net
+bsky.app
+bsky.social
+snapchat.com
+www.snapchat.com
+pinterest.com
+www.pinterest.com
+i.pinimg.com
+tumblr.com
+www.tumblr.com
+# linkedin.com
+# www.linkedin.com
+# discord.com
+# gateway.discord.gg
+
+# ── YouTube (+ CDN) ──────────────────────────────────────
+youtube.com
+www.youtube.com
+m.youtube.com
+youtu.be
+ytimg.com
+i.ytimg.com
+s.ytimg.com
+yt3.ggpht.com
+youtube-nocookie.com
+googlevideo.com
+youtubei.googleapis.com
+youtube.googleapis.com
+
+# ── Reddit ───────────────────────────────────────────────
+reddit.com
+www.reddit.com
+old.reddit.com
+new.reddit.com
+np.reddit.com
+i.redd.it
+v.redd.it
+preview.redd.it
+redditstatic.com
+redditmedia.com
+
+# ── Twitch ───────────────────────────────────────────────
+twitch.tv
+www.twitch.tv
+m.twitch.tv
+clips.twitch.tv
+player.twitch.tv
+static.twitchcdn.net
+
+# ── Streaming ────────────────────────────────────────────
+netflix.com
+www.netflix.com
+disneyplus.com
+www.disneyplus.com
+primevideo.com
+www.primevideo.com
+hulu.com
+www.hulu.com
+crunchyroll.com
+www.crunchyroll.com
+dailymotion.com
+www.dailymotion.com
+rumble.com
+www.rumble.com
+odysee.com
+www.odysee.com
+# vimeo.com
+# player.vimeo.com
+
+# ── Image/meme time-sinks ────────────────────────────────
+9gag.com
+www.9gag.com
+imgur.com
+i.imgur.com
+api.imgur.com
+
+# ── News & aggregators (the deep-work additions) ─────────
+news.ycombinator.com
+news.google.com
+flipboard.com
+www.flipboard.com
+feedly.com
+www.feedly.com
+# Add the news sites that are specific time-sinks for you, e.g.:
+# bbc.com
+# www.bbc.com
+# cnn.com
+# www.cnn.com
+# nytimes.com
+# www.nytimes.com
