@@ -7,7 +7,7 @@ Full install, configuration, and uninstall for focus-guardian.
 - macOS (tested on recent versions; depends on `launchd`, `dscacheutil`,
   `mDNSResponder`, `sudoers.d`, `newsyslog`).
 - An admin account (installation needs `sudo`).
-- No third-party dependencies — pure `bash` + standard macOS tools.
+- No third-party dependencies: just `bash` and standard macOS tools.
 
 ## Install
 
@@ -26,18 +26,18 @@ sudo GUARDIAN_USER=yourusername bash install.sh
 
 The installer:
 
-1. **Sudoers** — writes `/etc/sudoers.d/guardian` (validated with `visudo`
+1. **Sudoers.** Writes `/etc/sudoers.d/guardian` (validated with `visudo`
    before install), scoped to the trigger script only, and sets it
    immutable.
-2. **Scripts** — copies `guardian-focus-trigger.sh`, `guardian-sentinel.sh`,
+2. **Scripts.** Copies `guardian-focus-trigger.sh`, `guardian-sentinel.sh`,
    and the `focus-guardian` CLI to `/usr/local/bin/`.
-3. **Blocklists + schedule** — copies `blocklists/*.list` to
+3. **Blocklists + schedule.** Copies `blocklists/*.list` to
    `/etc/guardian/blocklists/`, and installs `config/schedule.conf` to
    `/etc/guardian/schedule.conf` **only if one is not already there** (your
    customized schedule is never overwritten on re-install).
-4. **LaunchDaemon** — installs and loads `com.guardian.focus-trigger`
+4. **LaunchDaemon.** Installs and loads `com.guardian.focus-trigger`
    (re-evaluates the schedule every 15 min, at boot, and on wake/login).
-5. **Sentinel LaunchAgent** — installs the user-level watchdog (runs at
+5. **Sentinel LaunchAgent.** Installs the user-level watchdog (runs at
    login and every 3 hours).
 
 It is safe to re-run the installer; it is idempotent.
@@ -54,14 +54,14 @@ Each line in `GUARDIAN_WINDOWS` is:
 "START END DOW BLOCKLIST LABEL"
 ```
 
-- `START` / `END` — 24h `HHMM` (e.g. `0900`, `1700`). Window is
+- `START` / `END`: 24h `HHMM` (e.g. `0900`, `1700`). Window is
   `[START, END)`. If `END <= START` the window wraps past midnight
   (e.g. `"2200 0600 ..."` blocks 22:00 → 06:00).
-- `DOW` — ISO weekdays `1`=Mon … `7`=Sun. Accepts `*`, ranges (`1-5`),
+- `DOW`: ISO weekdays `1`=Mon … `7`=Sun. Accepts `*`, ranges (`1-5`),
   lists (`1,3,5`), or combinations (`1-5,7`).
-- `BLOCKLIST` — name of a file in `/etc/guardian/blocklists/<name>.list`
+- `BLOCKLIST`: name of a file in `/etc/guardian/blocklists/<name>.list`
   (without the extension).
-- `LABEL` — free text shown in `status` and logs (may contain spaces).
+- `LABEL`: free text shown in `status` and logs (may contain spaces).
 
 First matching window wins. Outside all windows, nothing is blocked.
 
@@ -107,8 +107,8 @@ focus-guardian status      # active block, current window, health (no sudo)
 
 Logs:
 
-- `/var/log/guardian/focus-trigger.log` — scheduler activity
-- `/var/log/guardian/sentinel.log` — watchdog activity
+- `/var/log/guardian/focus-trigger.log`: scheduler activity
+- `/var/log/guardian/sentinel.log`: watchdog activity
 
 Rotated automatically by `newsyslog` (100 KB, 3 generations).
 
@@ -150,8 +150,8 @@ The uninstall is also kept as a comment block at the top of `install.sh`.
 
 | Symptom | Check |
 |---------|-------|
-| Block never activates | `focus-guardian status` — is a window active now? Is the LaunchDaemon loaded? |
+| Block never activates | `focus-guardian status`: is a window active now? Is the LaunchDaemon loaded? |
 | Block won't clear | `sudo focus-guardian run` outside any window; check `/etc/hosts` for the GUARDIAN markers |
-| Sites still reachable | Browser DNS cache — quit/reopen the browser; the tool flushes the OS cache but some browsers cache separately |
+| Sites still reachable | Browser DNS cache. Quit and reopen the browser; the tool flushes the OS cache but some browsers cache separately |
 | Daemon gone after OS update | Wait for the sentinel (≤3h) or run `focus-guardian repair` |
-| `sudo` still prompts | `/etc/sudoers.d/guardian` missing or invalid — `focus-guardian repair` recreates it |
+| `sudo` still prompts | `/etc/sudoers.d/guardian` missing or invalid; `focus-guardian repair` recreates it |
